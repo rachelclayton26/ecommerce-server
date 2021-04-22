@@ -1,23 +1,29 @@
 const Express =require('express');
-const { ecommerceController } = require('./controllers');
 const app = Express();
+const dbConnection = require('./db');
 
-const controllers = require("./controllers");
+app.use(Express.json());   ///////////MUST go above any routes - tells the app we want to use json in our request///////
 
-////TEST ROUTES FOR SERVER SET UP///
+const controllers = require('./controllers');
 
-app.use('/test', (req, res) => {
-    res.send("This is a message from the test endpoint on the server!")
+////// Test Route to Make Sure Server Connected to Postman /////////
+app.use('/test', (req, res)=> {
+    res.send("This is a message from the test route!")
 });
 
-//////////////////////////////////////////////////
+//////// Controller Routes ////////////
+app.use('/shop', controllers.shopController);
+app.use('/user', controllers.userController);
 
-app.use('/ecommerce', controllers.ecommerceController);
-
-app.use('/about', controllers.ecommerceController);
-
-
-
-app.listen(3000, () => {
-    console.log(`[Server]: App is listening on 3000.`);
+//////// Connecting Server to DataBase (PgAdmin)  ///////////////
+dbConnection.authenticate()
+.then(() =>  dbConnection.sync())
+.then(() => {
+    app.listen(3000, () => {
+        console.log('[Server]: App is listening on 3000.');
 });
+})
+.catch((err)=> {
+    console.log(`[Server]: Server crashed. Error = ${err}`);
+});
+
