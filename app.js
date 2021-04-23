@@ -3,12 +3,15 @@ const app = Express();
 const dbConnection = require("./db");
     //^import db 
 
-                 // app.use('/test', (req, res) => {
-                 //     res.send("This is a message from the test endpoint from your friend, the test server.")
-                    // });
+app.use(Express.json());  
+const controllers = require("./controllers");
+                 app.use('/test', (req, res) => {
+  res.send("This is a message from the test endpoint from your friend, the test server.")
+});
 
     //Import controllers as a bundle, <controllers>, from from index.js:                    
-const controllers = require("./controllers");
+    
+
     //call app.use(), which accepts two params.
     //First, create base URL /shop, then use dotnotation to get shopController out of that object.
 app.use('/shop', controllers.shopController);
@@ -29,21 +32,11 @@ dbConnection.authenticate()
     });
              //we print a message to show us that the sync() method failed and why we are NOT connected with the database or if there is any other kind of error. We get these error codes from db - thanks, sequelize!
 
-/*
---------------------------------------------------
-EXISTING CODE PARKING LOT - put stuff you don't understand or code you need to discuss down here
-==================================================
-*/
-
-
-// ////TEST ROUTES FOR SERVER SET UP///
 
 
 
-// //////////////////////////////////////////////////
 
 
 
-// app.use('/about', controllers.ecommerceController);
 
 
