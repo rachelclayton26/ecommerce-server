@@ -1,4 +1,4 @@
 module.exports = {
-    shopController: require("./shopController"),
+    shopController: require('./shopController'),
+    userController: require('./userController'),
 };
-//^export 
