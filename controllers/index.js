@@ -1,3 +1,4 @@
 module.exports = {
-    ecommerceController: require("./ecommerceController"),
+    shopController: require("./shopController"),
 };
+//^export 
