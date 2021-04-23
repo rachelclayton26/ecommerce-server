@@ -13,8 +13,11 @@ app.use('/test', (req, res)=> {
 });
 
 //////// Controller Routes ////////////
-app.use('/shop', controllers.shopController);
 app.use('/user', controllers.userController);
+
+app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
+app.use('/shop', controllers.shopController);
+
 
 //////// Connecting Server to DataBase (PgAdmin)  ///////////////
 dbConnection.authenticate()
