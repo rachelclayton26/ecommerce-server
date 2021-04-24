@@ -19,7 +19,7 @@ app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
 app.use('/shop', controllers.shopController);
 
 
-//////// Connecting Server to DataBase (PgAdmin)  ///////////////
+////// Connecting Server to DataBase (PgAdmin)  ///////////////
 dbConnection.authenticate()
 .then(() =>  dbConnection.sync())
 .then(() => {
@@ -30,3 +30,15 @@ dbConnection.authenticate()
 .catch((err)=> {
     console.log(`[Server]: Server crashed. Error = ${err}`);
 });
+
+
+// const Express = require("express");
+// const app = Express();
+
+// app.use('/test', (req, res) => {
+//     res.semd("this is a test route")
+// });
+
+// app.listen(3000, () => {
+//     console.log('[Server]: App is listening on 3000.');
+// });
