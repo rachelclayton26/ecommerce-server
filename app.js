@@ -23,10 +23,6 @@ app.use('/shop', controllers.shopController);
 dbConnection.authenticate()
 .then(() =>  dbConnection.sync())
 .then(() => {
-
-    // app.use('/test', (re,res) => {
-    //     res.send('This is a message from the test endpoint on the server!')
-    // })
     app.listen(3000, () => {
         console.log('[Server]: App is listening on 3000.');
 });
