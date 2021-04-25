@@ -8,6 +8,16 @@ const bcrypt = require('bcryptjs');
 router.post("/register", async(req, res) => {
     const {firstName, lastName, email, password} = req.body.user;
     try{
+        //// minimum password length requirement - not working yet ////
+        if(
+            !password.length >= 5
+        ) {
+            res.status(400).json({
+                message: "Password must be at least 5 characters long"
+            });
+            return;
+        }
+
         const User = await UserModel.create({
             firstName,
             lastName,
@@ -38,7 +48,7 @@ router.post("/register", async(req, res) => {
 /////////////// USER LOGIN //////////////
 
 router.post('/login', async(req, res) => {
-    const {email, password } = req.body.user;
+    const {email, passwordhash } = req.body.user;
 
     try{
         let loginUser = await UserModel.findOne({
@@ -48,9 +58,9 @@ router.post('/login', async(req, res) => {
     });
     if(loginUser){
 
-        let passwordComparison = await bcrypt.compare(password, loginUser.password);
+        let passwordhashComparison = await bcrypt.compare(passwordhash, loginUser.passwordhash);
 
-        if (passwordComparison){
+        if (passwordhashComparison){
 
         let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
 
