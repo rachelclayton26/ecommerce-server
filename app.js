@@ -21,6 +21,9 @@ app.use('/test', (req, res)=> {
 //////// Controller Routes ////////////
 app.use('/user', controllers.userController);
 
+//Alec
+app.use('/admin', controllers.userController);
+
 app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
 app.use('/shop', controllers.shopController);
 

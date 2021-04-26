@@ -23,6 +23,9 @@ const ShopItem = db.define("shopItem", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  category: {
+    type: DataTypes.ARRAY,
+  }
 });
 
 module.exports = ShopItem;
