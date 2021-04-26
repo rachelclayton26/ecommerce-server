@@ -38,6 +38,7 @@ router.get("/:title", async (req, res) => {
       const itemDetail = await ShopModel.findOne({
         where: {
           title: req.params.title,
+          //maybe we add an event listener to get the :id once the client side can be connected 
         },
       });
   
@@ -51,7 +52,7 @@ router.get("/:title", async (req, res) => {
       });
     }
   });
-  
+
 /*
 ====================
 about route
