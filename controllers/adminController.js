@@ -101,7 +101,7 @@ router.post('/aladdin', async(req, res) => {
 
 //Rachel
 
-router.post('/create', async (req, res) => {
+router.post('/create', validateJWTAdmin, async (req, res) => {
     const {title, description, price, inventory, media, category} = req.body.shopItem;
     // const {id} = req.admin;
     const shopEntry = {
