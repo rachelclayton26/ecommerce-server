@@ -9,14 +9,14 @@ router.post("/register", async(req, res) => {
     const {firstName, lastName, email, password} = req.body.user;
     try{
         /// password min length added in Client side register.js ///
-        if(
-            !password.length >= 5
-        ) {
-            res.status(400).json({
-                message: "Password must be at least 5 characters long"
-            });
-            return;
-        }
+        // if(
+        //     !password.length >= 5
+        // ) {
+        //     res.status(400).json({
+        //         message: "Password must be at least 5 characters long"
+        //     });
+        //     return;
+        // }
 
         const User = await UserModel.create({
             firstName,
@@ -48,7 +48,7 @@ router.post("/register", async(req, res) => {
 /////////////// USER LOGIN (JESS) //////////////
 
 router.post('/login', async(req, res) => {
-    const {email, passwordhash } = req.body.user;
+    const {email, password } = req.body.user;
 
     try{
         let loginUser = await UserModel.findOne({
@@ -58,9 +58,9 @@ router.post('/login', async(req, res) => {
     });
     if(loginUser){
 
-        let passwordhashComparison = await bcrypt.compare(passwordhash, loginUser.password);
+        let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
-        if (passwordhashComparison){
+        if (passwordComparison){
 
         let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
 
