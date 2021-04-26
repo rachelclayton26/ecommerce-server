@@ -4,20 +4,10 @@ const { UniqueConstraintError } = require('sequelize/lib/errors');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 
-//////// REGISTER USER - POST (JESS) /////////////
+/////// REGISTER USER - POST /////////////
 router.post("/register", async(req, res) => {
     const {firstName, lastName, email, password} = req.body.user;
     try{
-        /// password min length added in Client side register.js ///
-        // if(
-        //     !password.length >= 5
-        // ) {
-        //     res.status(400).json({
-        //         message: "Password must be at least 5 characters long"
-        //     });
-        //     return;
-        // }
-
         const User = await UserModel.create({
             firstName,
             lastName,
@@ -45,7 +35,7 @@ router.post("/register", async(req, res) => {
 }
 });
 
-/////////////// USER LOGIN (JESS) //////////////
+/////////////// USER LOGIN //////////////
 
 router.post('/login', async(req, res) => {
     const {email, password } = req.body.user;
