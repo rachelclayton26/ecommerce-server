@@ -2,12 +2,16 @@ require('dotenv').config();
 const Express =require('express');
 const app = Express();
 const dbConnection = require('./db');
+const middleware = require('./middleware');
+const controllers = require('./controllers');
+const { use } = require('./controllers/shopController');
 
 app.use(require('./middleware/headers'));
+app.use(middleware.CORS);
 
 app.use(Express.json());   ///////////MUST go above any routes - tells the app we want to use json in our request///////
 
-const controllers = require('./controllers');
+
 
 ////// Test Route to Make Sure Server Connected to Postman /////////
 app.use('/test', (req, res)=> {
