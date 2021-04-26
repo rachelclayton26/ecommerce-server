@@ -13,6 +13,10 @@ router.post("/register", async(req, res) => {
             lastName,
             email,
             password: bcrypt.hashSync(password, 15),
+            //Alec
+            //isAdmin is the other thing this model should account for, but we ideally shouldn't expose that to the front end. My hacky way to do this is something like this, followed by hiding the element from the user. Once the database is updated by one of us to indicate that there is an admin user, they could then see and use their UI elements. 
+            isAdmin
+
         });
 
         let token = jwt.sign({id: User.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
@@ -44,7 +48,27 @@ router.post('/login', async(req, res) => {
         let loginUser = await UserModel.findOne({
          where: {
             email: email,
+            // password: password, but via protected route
         },
+        //Alec - with Admin check:
+        /*
+        try {
+            let loginUser = await UserModel.findOne({
+         where: {
+            email: email,
+            password: password, 
+            isAdmin
+            console.log(user) 
+            } catch (e) {
+            console.log('Error - could not match you to a user. Please try again.')
+            }
+            */
+
+    try{
+        let loginAdminUser = await UserModel.findOne({
+            where: {
+            email: email,
+        }
     });
     if(loginUser){
 
