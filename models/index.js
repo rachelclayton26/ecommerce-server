@@ -1,8 +1,11 @@
 
 const ShopItemModel = require('./shop');
-
-module.exports = {ShopItemModel};
-
 const UserModel = require('./user');
+const AdminModel = require('./admin');
 
-module.exports = {UserModel};
+module.exports = {
+    
+    ShopItemModel,
+    UserModel,
+    AdminModel
+};
