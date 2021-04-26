@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {AdminModel} = require('../models');
+const {AdminModel, ShopItemModel} = require('../models');
 const { UniqueConstraintError } = require('sequelize/lib/errors');
 let validateJWTAdmin = require('../middleware/validate-jwt-admin');
 const jwt = require("jsonwebtoken");
@@ -22,8 +22,6 @@ router.post("/register", async(req, res) => {
             email,
             password: bcrypt.hashSync(password, 15),
         });
-
-        let token = jwt.sign({id: Admin.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
         
     res.status(201).json({
         message: "Admin successfully registered",
@@ -69,8 +67,7 @@ router.post('/aladdin', async(req, res) => {
 
         if (passwordComparison){
 
-        let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
-
+        
         res.status(200).json({
             admin: loginUser,
             message: "Admin successfully logged in!",
@@ -103,7 +100,7 @@ router.post('/aladdin', async(req, res) => {
 
 router.post('/create', validateJWTAdmin, async (req, res) => {
     const {title, description, price, inventory, media, category} = req.body.shopItem;
-    // const {id} = req.admin;
+    const {id} = req.admin;
     const shopEntry = {
         title,
         description,
@@ -111,7 +108,7 @@ router.post('/create', validateJWTAdmin, async (req, res) => {
         inventory,
         media,
         category,
-        // owner: id
+        owner: id
     }
     try {
         const newShopItem = await ShopItemModel.create(shopEntry);
@@ -119,7 +116,7 @@ router.post('/create', validateJWTAdmin, async (req, res) => {
     } catch (err) {
         res.status(500).json({error: err});
     }
-    ShopItemModel.create(shopEntry)
+   
     
 });
 module.exports = router;

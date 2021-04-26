@@ -15,8 +15,8 @@ router.post("/register", async(req, res) => {
             password: bcrypt.hashSync(password, 15),
         });
 
-        let token = jwt.sign({id: User.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
-        
+        const token = jwt.sign({ id: User.id }, process.env.JWT_SECRET);
+
     res.status(201).json({
         message: "User successfully registered",
         user: User,
@@ -51,8 +51,6 @@ router.post('/login', async(req, res) => {
         let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
         if (passwordComparison){
-
-        let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
 
         res.status(200).json({
             user: loginUser,
