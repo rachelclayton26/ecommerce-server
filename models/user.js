@@ -11,12 +11,12 @@ const User = db.define("user", {
         allowNull: false,
     },
     email:{
-        type: DataTypes.STRING("length", 100),
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
     passwordhash:{
-        type: DataTypes.STRING("length", 5 - 10),
+        type: DataTypes.STRING,
         allowNull: false,
     }
 });

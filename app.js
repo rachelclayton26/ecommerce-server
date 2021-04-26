@@ -27,7 +27,7 @@ app.use('/shop', controllers.shopController);
 
 //////// Connecting Server to DataBase (PgAdmin)  ///////////////
  dbConnection.authenticate()
- .then(() =>  dbConnection.sync())
+  .then(() =>  dbConnection.sync()) ///{force:true} to drop tables
  .then(() => {
      app.listen(3000, () => {
         console.log('[Server]: App is listening on 3000.');

@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 router.post("/register", async(req, res) => {
     const {firstName, lastName, email, password} = req.body.user;
     try{
-        //// minimum password length requirement - not working yet ////
+        /// password min length added in Client side register.js ///
         if(
             !password.length >= 5
         ) {
@@ -58,7 +58,7 @@ router.post('/login', async(req, res) => {
     });
     if(loginUser){
 
-        let passwordhashComparison = await bcrypt.compare(passwordhash, loginUser.passwordhash);
+        let passwordhashComparison = await bcrypt.compare(passwordhash, loginUser.password);
 
         if (passwordhashComparison){
 
