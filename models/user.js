@@ -1,4 +1,5 @@
 const {DataTypes} = require("sequelize");
+const {BOOLEAN}=require("sequelize/types");
 const db = require("../db");
 
 const User = db.define("user", {
@@ -18,6 +19,13 @@ const User = db.define("user", {
     password:{
         type: DataTypes.STRING,
         allowNull: false
+    },
+    //Alec - we discussed doing the admin user like this, but admins could also be added to a different db once created as users, in case that's easier
+    isAdmin:{
+        type: BOOLEAN,
+        defaultValue: false,
+        allNull: false,
+
     }
 });
 

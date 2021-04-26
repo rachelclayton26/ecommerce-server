@@ -9,5 +9,3 @@ router.get('/practice', validateJWT, (req, res) => {
 router.get('/about', (req, res) => {
     res.send("We can write 'Our Story'here!")
 });
-
-module.exports = router;

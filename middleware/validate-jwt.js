@@ -27,14 +27,14 @@ const validateJWT = async(req, res, next) => {
             if (foundUser) {
                 req.user = foundUser;
                 next();
-            } else {
-                res.status(400).send({message: "Not Authorized"});
+            } else {                           //Alec
+                res.status(400).send({message: "nuh-uh, not authorized"});
             }
         } else {
             res.status(401).send({message: "Invalid token"});
         }  
-    } else {
-        res.status(403).send({message: "Forbidden"});
+    } else {                            //Alec
+        res.status(403).send({message: "verboten"});
     }
 };
 
