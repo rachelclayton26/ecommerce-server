@@ -1,10 +1,8 @@
-/////// BUILT OUT BY JESS /////////
-
 const jwt = require("jsonwebtoken");
-const {UserModel} = require('../models');
+const {AdminModel} = require('../models');
 
 
-const validateJWT = async(req, res, next) => {
+const validateJWTAdmin = async(req, res, next) => {
     if (req.method == "OPTIONS"){
         next();
     } else if (
@@ -21,7 +19,7 @@ const validateJWT = async(req, res, next) => {
         : undefined;
 
         if (payload) {
-            let foundUser = await UserModel.findOne({
+            let foundUser = await AdminModel.findOne({
                 where: {
                     id: payload.id
                 }
@@ -41,4 +39,4 @@ const validateJWT = async(req, res, next) => {
     }
 };
 
-module.exports = validateJWT;
+module.exports = validateJWTAdmin;

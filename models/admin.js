@@ -1,7 +1,7 @@
 const {DataTypes} = require("sequelize");
 const db = require("../db");
 
-const User = db.define("user", {
+const Admin = db.define("admin", {
     firstName:{
         type: DataTypes.STRING,
         allowNull: false
@@ -18,13 +18,7 @@ const User = db.define("user", {
     password:{
         type: DataTypes.STRING,
         allowNull: false
-    },
-    //Alec - we discussed doing the admin user like this, but admins could also be added to a different db once created as users, in case that's easier
-    isAdmin:{
-        type: DataType.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
     }
 });
 
-module.exports = User;
+module.exports = Admin;
