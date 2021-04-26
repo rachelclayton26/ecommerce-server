@@ -1,42 +1,58 @@
 const Express = require('express');
 const router = Express.Router();
 let validateJWT = require('../middleware/validate-jwt');
-const { LogModel } = require('../models');
+const { ShopItemModel } = require('../models');
+
+//Alec
+/*
+====================
+practice route
+====================
+*/
 
 router.get('/practice', validateJWT, (req, res) => {
     res.send("Hey! I'm practicing making routes!")
 });
 
-router.get('/about', (req, res) => {
-    res.send("We can write 'Our Story'here!")
-});
-
-/*
-===============================
-        Get All Items
-===============================
+//Alec
+/* 
+====================
+Get ALL SHOP ITEMS - main view
+====================
 */
-
-//Rachel
-
-router.get('/', validateJWT, async (req, res) => {
-    const {title, description, price, inventory, media} = req.body.shopItem;
-    const {id} = req.user;
-    const shopEntry = {
-        title,
-        description,
-        price,
-        inventory,
-        media,
-        owner: id
-    }
+router.get("/", async (req, res) => {
     try {
-        const newShopItem = await ShopItemModel.create(shopEntry);
-        res.status(200).json(newShopItem);
+      const products = await ShopItemModel.findAll();
+      res.status(200).json(products);
     } catch (err) {
-        res.status(500).json({error: err});
+      res.status(500).json({ error: err });
     }
-    ShopItemModel.create(shopEntry)
-    
-});
+  });
+
+//Alec
+/* 
+====================
+Get SHOP ITEM - single item detail view
+====================
+*/
+router.get("/:title", async (req, res) => {
+    try {
+      const itemDetail = await ShopItemModel.findOne({
+        where: {
+          title: req.params.title,
+          //maybe we add an event listener to get the :id once the client side can be connected 
+        },
+      });
+  
+      res.status(200).json({
+        message: "Got it!",
+        itemDetail,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: `Failed to retrieve the item: ${err}`,
+      });
+    }
+  });
+
 module.exports = router;

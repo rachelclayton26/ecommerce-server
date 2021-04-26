@@ -1,8 +1,10 @@
+// let validateJWT = require('../middleware/validate-jwt');
 const router = require('express').Router();
 const {UserModel} = require('../models');
 const { UniqueConstraintError } = require('sequelize/lib/errors');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
+const User = require('../models/user');
 
 /////// REGISTER USER - POST /////////////
 router.post("/register", async(req, res) => {
@@ -49,10 +51,9 @@ router.post('/login', async(req, res) => {
     if(loginUser){
 
         let passwordComparison = await bcrypt.compare(password, loginUser.password);
-
+        
         if (passwordComparison){
-
-        let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
+            const token = jwt.sign({ id: User.id }, process.env.JWT_SECRET); //should it be loginUser? Or AdminUser?
 
         res.status(200).json({
             user: loginUser,
@@ -75,6 +76,5 @@ router.post('/login', async(req, res) => {
     })
 }
 });
-
 
 module.exports = router;

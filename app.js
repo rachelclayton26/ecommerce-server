@@ -12,11 +12,16 @@ app.use('/test', (req, res)=> {
     res.send("This is a message from the test route!")
 });
 
+app.use('/about', (req, res) => {
+    res.send("We can write 'Our Story'here!")
+});
+
+app.use(require('./middleware/headers'));
 //////// Controller Routes ////////////
 app.use('/user', controllers.userController);
-app.use(require('./middleware/validate-jwt-admin'));
 app.use('/open_sesame', controllers.adminController);  //admin route
-app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
+// app.use(require('./middleware/validate-jwt-admin'));
+// app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
 app.use('/shop', controllers.shopController);
 
 ////// Connecting Server to DataBase (PgAdmin)  ///////////////

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {AdminModel} = require('../models');
+const {ShopItemModel} = require('../models');
 const { UniqueConstraintError } = require('sequelize/lib/errors');
 let validateJWTAdmin = require('../middleware/validate-jwt-admin');
 const jwt = require("jsonwebtoken");
@@ -22,9 +23,9 @@ router.post("/register", async(req, res) => {
             email,
             password: bcrypt.hashSync(password, 15),
         });
-
-        let token = jwt.sign({id: Admin.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
         
+        const token = jwt.sign({ id: Admin.id }, process.env.JWT_SECRET);
+
     res.status(201).json({
         message: "Admin successfully registered",
         admin: Admin,
@@ -56,7 +57,7 @@ router.post("/register", async(req, res) => {
 
 router.post('/aladdin', async(req, res) => {
     const {email, password } = req.body.admin;
-
+    // console.log(email, password)
     try{
         let loginUser = await AdminModel.findOne({
          where: {
@@ -67,9 +68,9 @@ router.post('/aladdin', async(req, res) => {
 
         let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
-        if (passwordComparison){
+        const token = jwt.sign({ id: Admin.id }, process.env.JWT_SECRET);
 
-        let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
+        if (passwordComparison){
 
         res.status(200).json({
             admin: loginUser,
@@ -103,7 +104,7 @@ router.post('/aladdin', async(req, res) => {
 
 router.post('/create', validateJWTAdmin, async (req, res) => {
     const {title, description, price, inventory, media, category} = req.body.shopItem;
-    // const {id} = req.admin;
+    const {id} = req.admin;
     const shopEntry = {
         title,
         description,
@@ -111,7 +112,7 @@ router.post('/create', validateJWTAdmin, async (req, res) => {
         inventory,
         media,
         category,
-        // owner: id
+        owner: id
     }
     try {
         const newShopItem = await ShopItemModel.create(shopEntry);
@@ -119,10 +120,8 @@ router.post('/create', validateJWTAdmin, async (req, res) => {
     } catch (err) {
         res.status(500).json({error: err});
     }
-    ShopItemModel.create(shopEntry)
     
 });
-module.exports = router;
 
 /*
 ===============================
@@ -135,12 +134,10 @@ module.exports = router;
 router.put("/:id", validateJWTAdmin, async(req, res) => {
     const {title, description, price, inventory, media, category} = req.body.shopItem;
     const shopId = req.params.id;
-    const adminId = req.user.id;
 
     const query = {
             where: { 
                 id: shopId,
-                owner: adminId
              }
         };
         
@@ -170,18 +167,16 @@ router.put("/:id", validateJWTAdmin, async(req, res) => {
 //Rachel
 
 router.delete("/:id", validateJWTAdmin, async(req, res) => {
-    const ownerId = req.user.id;
     const shopId = req.params.id;
 
     try{
     const query = {
             where: { 
                 id: shopId,
-                owner: ownerId
              }
         };
         
-        await LogModel.destroy(query);
+        await ShopItemModel.destroy(query);
             res.status(200).json({message: "Product Removed"});
         } catch (err) {
         res.status(500).json({error: err});
