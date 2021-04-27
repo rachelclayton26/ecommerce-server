@@ -13,8 +13,8 @@ const validateJWTAdmin = (req, res, next) => {
           id: payload.id
         }
       })
-      .then(user => {
-        req.admin = user;
+      .then(admin => {
+        req.admin = admin;
         next();
       })
     } else {

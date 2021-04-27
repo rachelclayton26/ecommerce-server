@@ -1,5 +1,3 @@
-/////// BUILT OUT BY JESS /////////
-
 const jwt = require('jsonwebtoken');
 const { UserModel } = require('../models');
 
