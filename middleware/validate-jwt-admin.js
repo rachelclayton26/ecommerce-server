@@ -16,7 +16,10 @@ const validateJWTAdmin = (req, res, next) => {
       .then(admin => {
         req.admin = admin;
         next();
-      })
+      }).catch(err => {
+        console.error(err)
+        next()
+      });
     } else {
       res.status(401).json({
         message: 'Not allowed'

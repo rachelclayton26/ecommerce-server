@@ -103,6 +103,7 @@ router.post('/aladdin', async(req, res) => {
 //Rachel
 
 router.post('/create', validateJWTAdmin, async (req, res) => {
+    // console.log("create item")
     const {title, description, price, inventory, media, category} = req.body.shopItem;
     // const {id} = req.admin;
     const shopEntry = {
