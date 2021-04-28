@@ -14,9 +14,9 @@ app.use('/test', (req, res)=> {
 
 //////// Controller Routes ////////////
 app.use('/user', controllers.userController);
-app.use(require('./middleware/validate-jwt-admin'));
+// app.use(require('./middleware/validate-jwt-admin'));
 app.use('/open_sesame', controllers.adminController);  //admin route
-app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
+// app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
 app.use('/shop', controllers.shopController);
 
 ////// Connecting Server to DataBase (PgAdmin)  ///////////////
