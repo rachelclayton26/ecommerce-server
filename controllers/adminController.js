@@ -1,5 +1,10 @@
 const router = require('express').Router();
+<<<<<<< HEAD
 const {AdminModel, ShopItemModel} = require('../models');
+=======
+const {AdminModel} = require('../models');
+const {ShopItemModel} = require('../models');
+>>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
 const { UniqueConstraintError } = require('sequelize/lib/errors');
 let validateJWTAdmin = require('../middleware/validate-jwt-admin');
 const jwt = require("jsonwebtoken");
@@ -23,6 +28,8 @@ router.post("/register", async(req, res) => {
             password: bcrypt.hashSync(password, 15),
         });
         
+        const token = jwt.sign({ id: Admin.id }, process.env.JWT_SECRET);
+
     res.status(201).json({
         message: "Admin successfully registered",
         admin: Admin,
@@ -50,6 +57,10 @@ router.post("/register", async(req, res) => {
 //Rachel
 router.post('/aladdin', async(req, res) => {
     const {email, password } = req.body.admin;
+<<<<<<< HEAD
+=======
+    // console.log(email, password)
+>>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
     try{
         let loginUser = await AdminModel.findOne({
          where: {
@@ -60,8 +71,13 @@ router.post('/aladdin', async(req, res) => {
 
         let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
+        const token = jwt.sign({ id: Admin.id }, process.env.JWT_SECRET);
+
+<<<<<<< HEAD
+=======
         if (passwordComparison){
 
+>>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
         res.status(200).json({
             admin: loginUser,
             message: "Admin successfully logged in!",
@@ -93,6 +109,7 @@ router.post('/aladdin', async(req, res) => {
 //Rachel
 
 router.post('/create', validateJWTAdmin, async (req, res) => {
+    // console.log("create item")
     const {title, description, price, inventory, media, category} = req.body.shopItem;
     // const {id} = req.admin;
     const shopEntry = {
@@ -124,12 +141,10 @@ router.post('/create', validateJWTAdmin, async (req, res) => {
 router.put("/:id", validateJWTAdmin, async(req, res) => {
     const {title, description, price, inventory, media, category} = req.body.shopItem;
     const shopId = req.params.id;
-    const adminId = req.user.id;
 
     const query = {
             where: { 
                 id: shopId,
-                owner: adminId
              }
         };
         
@@ -159,18 +174,16 @@ router.put("/:id", validateJWTAdmin, async(req, res) => {
 //Rachel
 
 router.delete("/:id", validateJWTAdmin, async(req, res) => {
-    const ownerId = req.user.id;
     const shopId = req.params.id;
 
     try{
     const query = {
             where: { 
                 id: shopId,
-                owner: ownerId
              }
         };
         
-        await LogModel.destroy(query);
+        await ShopItemModel.destroy(query);
             res.status(200).json({message: "Product Removed"});
         } catch (err) {
         res.status(500).json({error: err});
