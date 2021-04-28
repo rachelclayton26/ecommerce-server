@@ -1,10 +1,5 @@
 const router = require('express').Router();
-<<<<<<< HEAD
 const {AdminModel, ShopItemModel} = require('../models');
-=======
-const {AdminModel} = require('../models');
-const {ShopItemModel} = require('../models');
->>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
 const { UniqueConstraintError } = require('sequelize/lib/errors');
 let validateJWTAdmin = require('../middleware/validate-jwt-admin');
 const jwt = require("jsonwebtoken");
@@ -27,7 +22,6 @@ router.post("/register", async(req, res) => {
             email,
             password: bcrypt.hashSync(password, 15),
         });
-        
         const token = jwt.sign({ id: Admin.id }, process.env.JWT_SECRET);
 
     res.status(201).json({
@@ -57,10 +51,6 @@ router.post("/register", async(req, res) => {
 //Rachel
 router.post('/aladdin', async(req, res) => {
     const {email, password } = req.body.admin;
-<<<<<<< HEAD
-=======
-    // console.log(email, password)
->>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
     try{
         let loginUser = await AdminModel.findOne({
          where: {
@@ -72,12 +62,7 @@ router.post('/aladdin', async(req, res) => {
         let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
         const token = jwt.sign({ id: Admin.id }, process.env.JWT_SECRET);
-
-<<<<<<< HEAD
-=======
-        if (passwordComparison){
-
->>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
+            if (passwordComparison) {
         res.status(200).json({
             admin: loginUser,
             message: "Admin successfully logged in!",

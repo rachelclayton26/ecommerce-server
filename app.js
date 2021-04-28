@@ -19,13 +19,8 @@ app.use('/about', (req, res) => {
 app.use(require('./middleware/headers'));
 //////// Controller Routes ////////////
 app.use('/user', controllers.userController);
-<<<<<<< HEAD
 // app.use(require('./middleware/validate-jwt-admin'));
 app.use('/open_sesame', controllers.adminController);  //admin route
-=======
-app.use('/open_sesame', controllers.adminController);  //admin route
-// app.use(require('./middleware/validate-jwt-admin'));
->>>>>>> 14bbdef428bed03115039fe98e188754f5915de2
 // app.use(require('./middleware/validate-jwt'));   ///<--- validate sessions
 app.use('/shop', controllers.shopController);
 
