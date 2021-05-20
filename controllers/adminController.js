@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 const Admin = require('../models/admin');
 
+//Line 2 and 3 are examples of where we are importing a models required by the admin controller. If you look to line  21, you can see that we are using the AdminModel to grab the properites expected my that model and require them in the "/register" data imput. This is important because we need to validate that all required properties are included and allows the server to recognize what has been entered, check it against the rquired data type, and enter it correcly in the database table. 
 
 /*
 ===============================
@@ -94,6 +95,8 @@ router.post('/aladdin', async(req, res) => {
 }
 });
 
+//Token Creation: Line 72 is where a token is created. The variable is declaired as "token" and then initalized. It uses the depenancy "jsonwebtoken" which we installed earlier. The jwt.sign method takes in the admin:id created and the JTW_SECRET imported from the .env file. It uses the "jsonwebtoken" algorithms(?) to create a token which will give this admin acess to protected routes like "/create." 
+
 /*
 ===============================
     Admin Shop Item Create
@@ -123,6 +126,8 @@ router.post('/create', validateJWTAdmin, async (req, res) => {
     }
     
 });
+
+//Validate-session: Line 106 contains a requirement of validateJWTAdmin. This checks the sessionToken created upon login, extracts the id and session from the payload, and verifies that this user has access to the given route. Here, it checks if the user trying to create a shop item is an admin with valid credentials.
 
 /*
 ===============================

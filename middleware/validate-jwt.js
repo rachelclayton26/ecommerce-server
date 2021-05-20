@@ -16,7 +16,10 @@ const validateJWT = (req, res, next) => {
       .then(user => {
         req.user = user;
         next();
-      })
+      }).catch(err => {
+        console.error(err)
+        next()
+      });
     } else {
       res.status(401).json({
         message: 'Not allowed'
